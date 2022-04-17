@@ -4,17 +4,21 @@ package net.javaForum.javaForum.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javaForum.javaForum.model.Game;
+import net.javaForum.javaForum.model.Role;
 import net.javaForum.javaForum.model.User;
 import net.javaForum.javaForum.repository.GameRepo;
+import net.javaForum.javaForum.repository.RoleRepo;
 import net.javaForum.javaForum.repository.UserRepo;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -22,25 +26,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserService {
+public class UserService implements UserDetailsService {
 
 
     private final UserRepo userRepository;
     private final GameRepo gameRepo;
+    private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder;
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<User> user = userRepository.findByUsername(username);
-//        if(user.isEmpty()){
-//            log.error("User not found");
-//            throw new UsernameNotFoundException("User not found in the database");
-//        }else{
-//            log.info("User found in the database: {}", username);
-//        }
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        user.get().getRoles().forEach(role -> {authorities.add(new SimpleGrantedAuthority(role.getName())); });
-//        return  new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
-//    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            log.error("User not found");
+            throw new UsernameNotFoundException("User not found in the database");
+        } else {
+            log.info("User found in the database: {}", username);
+        }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.get().getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
+    }
 
 
     //CREATE USER
@@ -48,8 +57,9 @@ public class UserService {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return false;
         }
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        addRoleToUser(user.getUsername(), "ROLE_USER");
         return true;
     }
 
@@ -58,7 +68,7 @@ public class UserService {
         if (userRepository.existsByUsername(username)) {
             User user = userRepository.getByUsername(username);
             userRepository.deleteByUsername(user.getUsername());
-            // updated.setPassword(passwordEncoder.encode(updated.getPassword()));
+            updated.setPassword(passwordEncoder.encode(updated.getPassword()));
             userRepository.save(updated);
             return userRepository.getByUsername(updated.getUsername());
         }
@@ -115,5 +125,13 @@ public class UserService {
         return false;
     }
 
+    public Role saveRole(Role role) {
+        return roleRepo.save(role);
+    }
 
+    public void addRoleToUser(String username, String roleName) {
+        User user = userRepository.getByUsername(username);
+        Role role = roleRepo.findByName(roleName);
+        user.getRoles().add(role);
+    }
 }

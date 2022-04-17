@@ -12,14 +12,13 @@ import java.util.Collection;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Getter
 @Setter
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="users_id")
+    @Column(name = "users_id")
     private Long id;
 
 
@@ -35,16 +34,13 @@ public class User {
     private String address;
 
 
-
-//    @ManyToMany(fetch=FetchType.EAGER)
-//    private Collection<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany
     @JoinColumn(name = "users_id")
     private Collection<Game> gamesCard = new ArrayList<>();
-
-
 
 
 }

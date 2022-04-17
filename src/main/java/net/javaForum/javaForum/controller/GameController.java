@@ -32,7 +32,7 @@ public class GameController {
                                       @RequestParam Long category_id) {
 
         //  String username = getUsernameByToken.getUsernameByToken(request,response);
-        if (gameService.saveGameToDB(username, game,category_id)) {
+        if (gameService.saveGameToDB(username, game, category_id)) {
             return new ResponseEntity<>(gameService.getGame(game.getId()), HttpStatus.OK);
         }
         return ResponseEntity.badRequest().body("Bad request");
