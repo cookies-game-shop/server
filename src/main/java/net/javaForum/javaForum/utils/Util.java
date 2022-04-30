@@ -8,8 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.javaForum.javaForum.model.Role;
 import net.javaForum.javaForum.model.User;
 import net.javaForum.javaForum.service.UserService;
-import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;

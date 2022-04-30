@@ -4,16 +4,20 @@ import lombok.extern.slf4j.Slf4j;
 import net.javaForum.javaForum.model.Game;
 import net.javaForum.javaForum.service.GameService;
 import net.javaForum.javaForum.service.UserService;
+import net.javaForum.javaForum.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @Slf4j
 @RestController
 @RequestMapping("/game")
-public class GameController {
+public class GameController extends Util {
 
 
     @Autowired
@@ -27,11 +31,11 @@ public class GameController {
     }
 
     @PostMapping("/save-game")
-    public ResponseEntity<?> saveGame(@RequestBody Game game,
-                                      String username,
-                                      @RequestParam Long category_id) {
+    public ResponseEntity<?> saveGame(HttpServletRequest request, HttpServletResponse response,
+                                      @RequestBody Game game,
+                                      @RequestParam Long category_id) throws IOException {
 
-        //  String username = getUsernameByToken.getUsernameByToken(request,response);
+        String username = getUsernameByToken(request, response);
         if (gameService.saveGameToDB(username, game, category_id)) {
             return new ResponseEntity<>(gameService.getGame(game.getId()), HttpStatus.OK);
         }
@@ -51,8 +55,8 @@ public class GameController {
 
 
     @DeleteMapping("/delete-game")
-    public boolean deleteQue(@RequestParam Long id, String username) {
-        //  String username = getUsernameByToken.getUsernameByToken(request, response);
+    public boolean deleteQue(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = getUsernameByToken(request, response);
         return gameService.deleteGameFromDB(id, username);
     }
 

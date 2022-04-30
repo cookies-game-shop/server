@@ -1,13 +1,8 @@
 package net.javaForum.javaForum.model;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @Entity
@@ -30,7 +25,7 @@ public class Admin {
     @Column(nullable = false)
     private String password;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Collection<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
 }
