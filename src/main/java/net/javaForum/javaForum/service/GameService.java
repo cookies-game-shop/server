@@ -38,7 +38,7 @@ public class GameService  {
 
     public Game getGame(Long id) {
         if (gameRepo.existsById(id)) {
-            return gameRepo.getById(id);
+            return gameRepo.findById(id).get();
         }
         return null;
     }

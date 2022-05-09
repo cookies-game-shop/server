@@ -38,7 +38,7 @@ public class GameController extends Util {
 
     @PostMapping("/save-game")
     public ResponseEntity<?> saveGame(
-           // @RequestParam MultipartFile file,
+            // @RequestParam MultipartFile file,
             @RequestParam String name,
             @RequestParam String par,
             @RequestParam Integer price,
@@ -48,7 +48,7 @@ public class GameController extends Util {
         User admin = userRepo.getByUsername(adminCreds);
         if (admin.getUsername().equals("admin")) {
             Game game = new Game(null, name, par, price, null, null);
-              //  game.setPreviewImage(file.getBytes());
+            //  game.setPreviewImage(file.getBytes());
             gameRepo.save(game);
             return ResponseEntity.status(HttpStatus.OK).body("SAVED");
         }
@@ -63,13 +63,6 @@ public class GameController extends Util {
         }
         return ResponseEntity.badRequest().body("Bad request");
     }
-
-    @GetMapping("/get-test")
-    public ResponseEntity<?> getTest(@RequestParam Long id) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(gameRepo.getById(id));
-    }
-
 
     @DeleteMapping("/delete-game")
     public boolean deleteQue(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
