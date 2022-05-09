@@ -60,7 +60,8 @@ public class UserController extends Util {
     }
 
     @PostMapping("/add-to-card")
-    public ResponseEntity<?> addToCard(@RequestParam Long game_id, String username) {
+    public ResponseEntity<?> addToCard(@RequestParam Long game_id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = getUsernameByToken(request,response);
         boolean saving = userService.addToCard(username, game_id);
         if (saving) {
             return new ResponseEntity<>(saving, HttpStatus.OK);
@@ -97,7 +98,7 @@ public class UserController extends Util {
         return userService.delete(username);
     }
 
-    @GetMapping("/get-card")
+    @GetMapping("/get-cart")
     public ResponseEntity<Game> getListGameCard(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String username = getUsernameByToken(request, response);
         return new ResponseEntity(userService.getGamesCardByUsername(username), HttpStatus.OK);
