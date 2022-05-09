@@ -27,12 +27,10 @@ import java.util.Optional;
 @Slf4j
 public class UserService implements UserDetailsService {
 
-
     private final UserRepo userRepository;
     private final GameRepo gameRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,7 +47,6 @@ public class UserService implements UserDetailsService {
         });
         return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
     }
-
 
     //CREATE USER
     public boolean createUser(User user) {
@@ -100,7 +97,6 @@ public class UserService implements UserDetailsService {
         throw new Exception();
     }
 
-
     // ADD TO CARD GAME
     public boolean addToCard(String username, Long game_id) {
         if (userRepository.existsByUsername(username)) {
@@ -133,6 +129,4 @@ public class UserService implements UserDetailsService {
         Role role = roleRepo.findByName(roleName);
         user.getRoles().add(role);
     }
-
-
 }

@@ -9,16 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 public class OrderController {
 
-
     @Autowired
     OrderService orderService;
-
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-
-
-
-
-
 }

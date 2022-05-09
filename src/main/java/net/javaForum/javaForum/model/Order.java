@@ -26,5 +26,4 @@ public class Order {
     private Integer cvv;
     private Date exp_date;
     private Long game_id;
-
 }

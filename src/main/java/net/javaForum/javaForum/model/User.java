@@ -26,6 +26,4 @@ public class User {
     @OneToMany
     @JoinColumn(name = "users_id")
     private Collection<Game> gamesCard = new ArrayList<>();
-
-
 }

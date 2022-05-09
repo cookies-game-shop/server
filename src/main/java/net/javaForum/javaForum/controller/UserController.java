@@ -90,7 +90,6 @@ public class UserController extends Util {
         return ResponseEntity.badRequest().body("User does not exists");
     }
 
-
     //DELETE
     @DeleteMapping("/delete-user")
     public boolean delete(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -10,26 +10,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GameService  {
+public class GameService {
 
     @Autowired
     GameRepo gameRepo;
     @Autowired
     UserRepo userRepo;
 
-
     public GameService(GameRepo gameRepo, UserRepo userRepo) {
         this.gameRepo = gameRepo;
         this.userRepo = userRepo;
-    }
-
-    public boolean saveGameToDB(Game game, Long category_id) {
-       if(game!=null){
-            game.setCategory_id(category_id);
-            gameRepo.save(game);
-            return true;
-        }
-        return false;
     }
 
     public List<Game> getListGame() {
@@ -45,8 +35,8 @@ public class GameService  {
 
     public boolean deleteGameFromDB(Long id) {
         if (gameRepo.existsById(id)) {
-                gameRepo.deleteById(id);
-                return true;
+            gameRepo.deleteById(id);
+            return true;
         }
         return false;
     }

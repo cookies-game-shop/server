@@ -29,6 +29,4 @@ public class Game {
     private Long category_id;
     @Lob
     private byte[] previewImage;
-
-
 }
