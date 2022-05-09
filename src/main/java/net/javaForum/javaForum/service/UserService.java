@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -132,4 +133,6 @@ public class UserService implements UserDetailsService {
         Role role = roleRepo.findByName(roleName);
         user.getRoles().add(role);
     }
+
+
 }

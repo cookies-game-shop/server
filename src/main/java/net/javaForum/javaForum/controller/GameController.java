@@ -2,7 +2,9 @@ package net.javaForum.javaForum.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.javaForum.javaForum.model.Game;
+import net.javaForum.javaForum.model.User;
 import net.javaForum.javaForum.repository.GameRepo;
+import net.javaForum.javaForum.repository.UserRepo;
 import net.javaForum.javaForum.service.GameService;
 import net.javaForum.javaForum.service.UserService;
 import net.javaForum.javaForum.utils.Util;
@@ -21,44 +23,37 @@ import java.io.IOException;
 @RequestMapping("/game")
 public class GameController extends Util {
 
-
     @Autowired
     GameService gameService;
     @Autowired
     UserService userService;
     @Autowired
     GameRepo gameRepo;
-
+    @Autowired
+    UserRepo userRepo;
 
     public GameController(GameService gameService) {
         this.gameService = gameService;
     }
-//
-//    @PostMapping("/save-game")
-//    public ResponseEntity<?> saveGame(HttpServletRequest request,
-//                                      HttpServletResponse response,
-//                                      @RequestBody Game game,
-//                                      @RequestParam Long category_id) throws IOException {
-//
-//        String username = getUsernameByToken(request, response);
-//        if (gameService.saveGameToDB(username, game, category_id)) {
-//            return new ResponseEntity<>(gameService.getGame(game.getId()), HttpStatus.OK);
-//        }
-//        return ResponseEntity.badRequest().body("Bad request");
-//    }
+
     @PostMapping("/save-game")
-    public ResponseEntity<?> saveGame(@RequestParam MultipartFile file) throws IOException {
-
-      //  String username = getUsernameByToken(request, response);
-        Game game  = new Game(null,"Name","Para",8000,null,null);
-
-        game.setPreviewImage(file.getBytes());
-//        if (gameService.saveGameToDB(username, game, category_id)) {
-//            return new ResponseEntity<>(gameService.getGame(game.getId()), HttpStatus.OK);
-//        }
-        return ResponseEntity.status(HttpStatus.OK).body( gameRepo.save(game));
+    public ResponseEntity<?> saveGame(
+           // @RequestParam MultipartFile file,
+            @RequestParam String name,
+            @RequestParam String par,
+            @RequestParam Integer price,
+            HttpServletResponse response,
+            HttpServletRequest request) throws IOException {
+        String adminCreds = getUsernameByToken(request, response);
+        User admin = userRepo.getByUsername(adminCreds);
+        if (admin.getUsername().equals("admin")) {
+            Game game = new Game(null, name, par, price, null, null);
+              //  game.setPreviewImage(file.getBytes());
+            gameRepo.save(game);
+            return ResponseEntity.status(HttpStatus.OK).body("SAVED");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You are not allowed!");
     }
-
 
     @GetMapping("/get-game")
     public ResponseEntity<?> getGame(@RequestParam Long id) {
@@ -68,6 +63,7 @@ public class GameController extends Util {
         }
         return ResponseEntity.badRequest().body("Bad request");
     }
+
     @GetMapping("/get-test")
     public ResponseEntity<?> getTest(@RequestParam Long id) {
 
@@ -77,8 +73,12 @@ public class GameController extends Util {
 
     @DeleteMapping("/delete-game")
     public boolean deleteQue(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = getUsernameByToken(request, response);
-        return gameService.deleteGameFromDB(id, username);
+        String adminCreds = getUsernameByToken(request, response);
+        User admin = userRepo.getByUsername(adminCreds);
+        if (admin != null) {
+            return gameService.deleteGameFromDB(id);
+        }
+        return false;
     }
 
     @GetMapping("/get-list-game")

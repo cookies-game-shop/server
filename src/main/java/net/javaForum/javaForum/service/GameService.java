@@ -3,14 +3,15 @@ package net.javaForum.javaForum.service;
 import net.javaForum.javaForum.model.Game;
 import net.javaForum.javaForum.repository.GameRepo;
 import net.javaForum.javaForum.repository.UserRepo;
+import net.javaForum.javaForum.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GameService {
-    private static final String ADMIN = "admin";
+public class GameService  {
+
     @Autowired
     GameRepo gameRepo;
     @Autowired
@@ -22,9 +23,8 @@ public class GameService {
         this.userRepo = userRepo;
     }
 
-    //TODO:проверка на админа
-    public boolean saveGameToDB(String username, Game game, Long category_id) {
-        if (username.equals(ADMIN)) {
+    public boolean saveGameToDB(Game game, Long category_id) {
+       if(game!=null){
             game.setCategory_id(category_id);
             gameRepo.save(game);
             return true;
@@ -43,12 +43,10 @@ public class GameService {
         return null;
     }
 
-    public boolean deleteGameFromDB(Long id, String username) {
+    public boolean deleteGameFromDB(Long id) {
         if (gameRepo.existsById(id)) {
-            if (username.equals(ADMIN)) {
                 gameRepo.deleteById(id);
                 return true;
-            }
         }
         return false;
     }

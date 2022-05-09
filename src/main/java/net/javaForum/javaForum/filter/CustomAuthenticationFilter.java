@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -53,14 +52,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1 * 600 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1 * 6000 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 600 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 6000 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 

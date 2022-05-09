@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.javaForum.javaForum.model.Game;
 import net.javaForum.javaForum.model.Role;
 import net.javaForum.javaForum.model.User;
+import net.javaForum.javaForum.repository.UserRepo;
 import net.javaForum.javaForum.service.UserService;
 import net.javaForum.javaForum.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class UserController extends Util {
 
     @Autowired
     UserService userService;
-
+    @Autowired
+    UserRepo userRepo;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -130,6 +132,16 @@ public class UserController extends Util {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
+    }
+
+    @GetMapping("/get-admin-creds")
+    public ResponseEntity<?> getAdminCreds(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = getUsernameByToken(request, response);
+        User admin = userRepo.getByUsername(username);
+        if (admin.getUsername().equals("admin")) {
+            return ResponseEntity.status(HttpStatus.OK).body("ADMIN");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ORDINARY USER");
     }
 
 }
