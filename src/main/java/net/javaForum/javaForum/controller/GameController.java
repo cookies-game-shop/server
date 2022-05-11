@@ -41,7 +41,7 @@ public class GameController extends Util {
             // @RequestParam MultipartFile file,
             @RequestParam String name,
             @RequestParam String par,
-            @RequestParam Integer price,
+            @RequestParam Double price,
             HttpServletResponse response,
             HttpServletRequest request) throws IOException {
         String adminCreds = getUsernameByToken(request, response);

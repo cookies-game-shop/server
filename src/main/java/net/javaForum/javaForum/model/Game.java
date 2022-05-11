@@ -24,7 +24,7 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String par;
     @NotNull
-    private Integer price;
+    private Double price;
     @NotNull
     private Long category_id;
     @Lob
