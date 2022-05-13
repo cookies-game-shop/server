@@ -146,13 +146,13 @@ public class JavaForumApplication implements CommandLineRunner {
         gameRepo.save(game10);
 
 
-        Game game11 = new Game(null,
+      /*  Game game11 = new Game(null,
                 "Prey®: Bethesda.net Edition",
                 "The game takes place in an alternate timeline in which an accelerated Space Race resulted in humankind taking to orbital stations far earlier. The player controls Morgan Yu while exploring the space station Talos I, in orbit around Earth–Moon L2, where they were part of a scientific team researching the Typhon, a hostile alien force composed of many forms with both physical and psychic powers, such as shapeshifting into a clone of any inanimate object. As the Typhoon escape confinement, the player uses a variety of weapons and abilities derived from the Typhoon to avoid being killed while looking to escape the station. ",
                 39.99,
                 null,
                 null);
-        gameRepo.save(game11);
+        gameRepo.save(game11);*/
 
         Game game12 = new Game(null,
                 "The Elder Scrolls Online",

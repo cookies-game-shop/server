@@ -105,9 +105,12 @@ public class UserController extends Util {
 
     //DELETE FROM CARD
     @DeleteMapping("/delete-card")
-    public boolean deleteGameFromCard(Long game_id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> deleteGameFromCard(Long game_id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = getUsernameByToken(request, response);
-        return userService.deleteGameFromCard(game_id, username);
+        if(userService.deleteGameFromCard(game_id, username)){
+            return ResponseEntity.status(HttpStatus.OK).body("Game DELETED");
+        }
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You are not allowed!");
     }
 
     //SAVE ROLE

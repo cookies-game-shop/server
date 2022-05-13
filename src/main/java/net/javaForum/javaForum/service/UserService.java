@@ -111,7 +111,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean deleteGameFromCard(Long id, String username) {
-        if (userRepository.existsById(id)) {
+        if (gameRepo.existsById(id)) {
             if (userRepository.getByUsername(username).getGamesCard().contains(gameRepo.getById(id))) {
                 userRepository.getByUsername(username).getGamesCard().remove(gameRepo.getById(id));
                 return true;
