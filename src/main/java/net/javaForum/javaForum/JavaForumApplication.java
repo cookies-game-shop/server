@@ -155,7 +155,7 @@ public class JavaForumApplication implements CommandLineRunner {
         gameRepo.save(game11);*/
 
         Game game12 = new Game(null,
-                "The Elder Scrolls Online",
+                "The Elder Scrolls Online Collection",
                 "The Elder Scrolls Online Collection: Blackwood is the ultimate Elder Scrolls experience and includes the base game, new Blackwood Chapter, and all previous Chapters.",
                 14.99,
                 null,
