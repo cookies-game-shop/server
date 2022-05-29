@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="entityManagerFactory" value="3fd6f028-63e9-4a67-b55b-6d44827a437c" />
+          <factory-entry name="entityManagerFactory" value="7d472bd3-267f-4bc3-82c7-efd93e383a74" />
           <factory-entry name="javaForum" />
         </datasource-mapping>
         <naming-strategy-map />
