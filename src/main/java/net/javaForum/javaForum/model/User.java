@@ -20,6 +20,10 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false,name = "firstName")
+    private String firstName;
+    @Column(nullable = false,name = "lastName")
+    private String lastName;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
     @JsonIgnore

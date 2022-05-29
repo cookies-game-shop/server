@@ -45,7 +45,7 @@ public class JavaForumApplication implements CommandLineRunner {
     public void run(String... args) {
         userService.saveRole(new Role(null, "ROLE_USER"));
         userService.saveRole(new Role(null, "ROLE_ADMIN"));
-        userService.createUser(new User(null, "admin", "123456", new ArrayList<>(), new ArrayList<>()));
+        userService.createUser(new User(null, "admin", "123456","","", new ArrayList<>(), new ArrayList<>()));
         userService.addRoleToUser("admin", "ROLE_ADMIN");
         Category category1 = new Category(null, "Arcade");
         Category category2 = new Category(null, "3D");
